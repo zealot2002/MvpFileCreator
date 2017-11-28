@@ -79,9 +79,7 @@ public class MvpFileCreatorAtFolder extends AnAction {
             String currentUser = System.getProperty("user.name");
             if (e.getActionCommand().equals("确定")) {
                 try{
-                    if(!Util.isValidViewName(viewName.getText())){
-                        throw new RuntimeException("视图名称只能包含字母数字下划线");
-                    }
+                    Util.isValidViewName(viewName.getText());
                 }catch (Exception e1){
                     e1.printStackTrace();
                     Messages.showInfoMessage(project,e1.toString(),"提示");

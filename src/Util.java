@@ -43,11 +43,11 @@ public class Util {
             throw new RuntimeException("非法的视图名称：首字母必须大写");
         }
 
-        String importFileRole = "[a-zA-Z0-9_-]";//正则表达式
-        Pattern p = Pattern.compile(importFileRole);//获取正则表达式中的分组，每一组小括号为一组
-        if (p.matcher(name).matches()) {//判断正则表达式是否匹配到
-            return true;
+        String importFileRole = "^\\w{3,20}$";
+        Pattern p = Pattern.compile(importFileRole);
+        if (!p.matcher(name).matches()) {
+            throw new RuntimeException("视图名称只能包含字母数字下划线");
         }
-        return false;
+        return true;
     }
 }
