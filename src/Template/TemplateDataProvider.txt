@@ -1,0 +1,15 @@
+package $packageName;
+
+
+/**
+ * @author $author
+ * @Description:
+ * @date $date
+ */
+
+public class DataProvider {
+
+
+
+
+}

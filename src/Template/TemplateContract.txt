@@ -1,0 +1,18 @@
+package $packageName;
+
+
+/**
+ * @author $author
+ * @Description:
+ * @date $date
+ */
+
+public interface $viewNameContract {
+    interface View extends BaseView<Presenter> {
+
+    }
+
+    interface Presenter extends BasePresenter {
+
+    }
+}

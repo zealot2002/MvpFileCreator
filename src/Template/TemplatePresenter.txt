@@ -1,0 +1,22 @@
+package $packageName;
+
+
+/**
+ * @author $author
+ * @Description:
+ * @date $date
+ */
+
+public class $viewNamePresenter implements $viewNameContract.Presenter{
+    private final $viewNameContract.View view;
+
+/****************************************************************************************************/
+    public $viewNamePresenter(@NonNull $viewNameContract.View view) {
+        this.view = view;
+        this.view.setPresenter(this);
+    }
+    @Override
+    public void start() { }
+
+
+}

@@ -1,37 +1,23 @@
-package $packagename;
+package $packageName;
 
 
 /**
  * @author $author
- * @Package $packagename
- * @Description: $description
+ * @Description:
  * @date $date
  */
 
- public class $nameActivity extends BaseActivity{
+public class $viewNameActivity extends BaseActivity implements $viewNameContract.View{
+    private $viewNameContract.Presenter presenter;
 
-     @Override
-     public int setLayoutId() {
-         return 0;
-     }
+/****************************************************************************************************/
 
-     @Override
-     public void initViews() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-     }
+        presenter = new $viewNamePresenter(this);
 
-     @Override
-     public String setUmengAnalize() {
-         return null;
-     }
+    }
 
-     @Override
-     public void initListener() {
-
-     }
-
-     @Override
-     public void initOthers() {
-
-     }
  }

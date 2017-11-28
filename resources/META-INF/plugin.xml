@@ -33,6 +33,12 @@
     <action id="MvpFileCreator" class="MvpFileCreator" text="MvpFileCreator" description="MvpFileCreator">
       <add-to-group group-id="CodeMenu" anchor="first"/>
     </action>
+
+    <action id="MvpFileCreatorAtFolder" class="MvpFileCreatorAtFolder" text="MvpFileCreatorAtFolder"
+            description="MvpFileCreatorAtFolder">
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                    relative-to-action="ProjectViewPopupMenuRefactoringGroup"/>
+    </action>
   </actions>
 
 </idea-plugin>
