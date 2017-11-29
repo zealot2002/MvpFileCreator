@@ -20,4 +20,9 @@ public class $viewNameActivity extends BaseActivity implements $viewNameContract
 
     }
 
+    @Override
+    public void setPresenter($viewNameContract.Presenter presenter) {
+
+    }
+
  }

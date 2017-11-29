@@ -1,20 +1,22 @@
+package mvpFileCreator;
+
 import java.io.*;
 
 public class FileFactory {
     public static enum CodeType {
-        Activity,DataProvider,Constact,Presenter
+        Activity,DataProvider,Constact,Presenter,Debug,Manifest,Gradle
     }
 
     private String packageName;
-    private String moduleName;
     private String viewName;
+    private String moduleName;
     private String modulePath;
     private String author;
+    private String onOff;
 
-    public FileFactory(String packageName,String modulePath,String moduleName){
+    public FileFactory(String packageName,String modulePath){
         this.packageName = packageName;
         this.modulePath = modulePath;
-        this.moduleName = moduleName;
     }
 
     public void setAuthor(String author) {
@@ -23,6 +25,18 @@ public class FileFactory {
 
     public void setViewName(String viewName) {
         this.viewName = viewName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setOnOff(String onOff) {
+        this.onOff = onOff;
     }
 
     public void createAll() {
@@ -70,8 +84,69 @@ public class FileFactory {
                 content = dealPresenter(content);
                 writetoFile(content, modulePath+"/presenter",  viewName + "Presenter.java");
                 break;
+
+            case Debug:
+                createDebugFile();
+                break;
+            case Manifest:
+                modifyManifestFile();
+                break;
+            case Gradle:
+                modifyGradleFile();
+                break;
         }
     }
+
+    private void modifyGradleFile() {
+        String TemplateFileName = "TemplateGradle.txt";
+        String content = ReadFile(TemplateFileName);
+        content = content.replace("$onOff", onOff);
+        Util.writeFile(content,modulePath);
+    }
+
+    private void modifyManifestFile() {
+        File file = new File(modulePath);
+        String content="";
+        try {
+            content = Util.txt2String(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        String replaceC = "<application\n" +
+                "        android:allowBackup=\"true\"\n" +
+                "        android:label=\"@string/app_name\"\n" +
+                "        android:supportsRtl=\"true\">\n" +
+                "\n" +
+                "    </application>";
+        int p1 = content.indexOf("<application");
+        int p2 = content.indexOf("</application>");
+        StringBuilder sb = new StringBuilder();
+        sb.append(content.substring(0,p1));
+        sb.append(replaceC);
+        sb.append(content.substring(p2+"</application>".length(),content.length()));
+        Util.writeFile(sb.toString(),modulePath);
+    }
+
+    private void createDebugFile() {
+        //manifest
+        String content = ReadFile("TemplateDebugManifest.txt");
+        content = content.replace("$packageName", packageName);
+        content = content.replace("$moduleName", moduleName);
+        writetoFile(content, modulePath,"AndroidManifest.xml");
+
+        //Application
+        String content2 = ReadFile("TemplateDebugApplication.txt");
+        content2 = content2.replace("$packageName", packageName);
+        content2 = content2.replace("$moduleName", moduleName);
+        writetoFile(content2, modulePath,moduleName+"Application.java");
+
+        //manifest
+        String content3 = ReadFile("TemplateDebugLauncherActivity.txt");
+        content3 = content3.replace("$packageName", packageName);
+        writetoFile(content3, modulePath,"LauncherActivity.java");
+    }
+
     private String addHeader(String content) {
         content = content.replace("$author", author);
         content = content.replace("$date", Util.getNowDateShort());
@@ -79,27 +154,27 @@ public class FileFactory {
     }
     private String dealActivity(String content){
         content = content.replace("$viewName",viewName);
-        content = content.replace("$packageName", packageName+"."+moduleName+".view");
+        content = content.replace("$packageName", packageName+".view");
         return content;
     }
     private String dealContract(String content){
         content = content.replace("$viewName",viewName);
-        content = content.replace("$packageName", packageName+"."+moduleName+".contract");
+        content = content.replace("$packageName", packageName+".contract");
         return content;
     }
     private String dealDataProvider(String content){
 //        content = content.replace("$viewName",viewName);
-        content = content.replace("$packageName", packageName+"."+moduleName+".model");
+        content = content.replace("$packageName", packageName+".model");
         return content;
     }
     private String dealPresenter(String content){
         content = content.replace("$viewName",viewName);
-        content = content.replace("$packageName", packageName+"."+moduleName+".presenter");
+        content = content.replace("$packageName", packageName+".presenter");
         return content;
     }
     private String ReadFile(String filename){
         InputStream in = null;
-        in = this.getClass().getResourceAsStream("/Template/"+filename);
+        in = this.getClass().getResourceAsStream("/mvpFileCreator/Template/" +filename);
         String content = "";
         try {
             content = new String(readStream(in));

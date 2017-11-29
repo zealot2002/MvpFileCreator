@@ -1,0 +1,46 @@
+if (isBuildAll.toBoolean()||$onOff.toBoolean()){
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        //ARouter
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+    sourceSets {
+        main {
+            if (isBuildAll.toBoolean()||$onOff.toBoolean()){
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+
+                //We'll not compile the debug folder when building all.
+                java {
+                    exclude 'debug/**'
+                }
+            } else {
+                manifest.srcFile 'src/main/java/debug/AndroidManifest.xml'
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    annotationProcessor "com.alibaba:arouter-compiler:$rootProject.annotationProcessor"
+
+    compile project(path: ':Library-App')
+}

@@ -1,3 +1,5 @@
+package mvpFileCreator;
+
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
@@ -11,13 +13,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MvpFileCreatorAtFolder extends AnAction {
+public class DebugFileCreator extends AnAction {
 
     private Project project;
     private JDialog jFrame;
 
-    JTextField viewName;
-    String moduleName;
+    JTextField viewName,packageName;
 
     FileFactory fileFactory;
     @Override
@@ -25,15 +26,12 @@ public class MvpFileCreatorAtFolder extends AnAction {
         // TODO: insert action logic here
         VirtualFile selectedFile = DataKeys.VIRTUAL_FILE.getData(event.getDataContext());
         String modulePath = selectedFile.toString().substring(7);
-        int p = selectedFile.toString().lastIndexOf("/")+1;
-        moduleName = selectedFile.toString().substring(p);
 
         if(!selectedFile.isDirectory())
             return;  //do nothing..
         project = event.getData(PlatformDataKeys.PROJECT);
-        String packageName = Util.readPackageName(project);
-
-        fileFactory = new FileFactory(packageName,modulePath,moduleName);
+        String packageName = Util.readPackageName(modulePath);
+        fileFactory = new FileFactory(packageName,modulePath);
         initSelectView();
     }
     private void initSelectView() {
@@ -43,12 +41,16 @@ public class MvpFileCreatorAtFolder extends AnAction {
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         JPanel panelname = new JPanel();// /定义一个面板
-        panelname.setLayout(new GridLayout(1, 1));
-        panelname.setBorder(BorderFactory.createTitledBorder("请输入视图名称"));
+        panelname.setLayout(new GridLayout(1, 2));
+        panelname.setBorder(BorderFactory.createTitledBorder("请输入moduleName和packageName"));
 
         viewName = new JTextField();
-        viewName.setText("1");
+        viewName.setText("moduleName");
         panelname.add(viewName);
+
+        packageName = new JTextField();
+        packageName.setText("packageName");
+        panelname.add(packageName);
 
         container.add(panelname);
 
@@ -67,7 +69,7 @@ public class MvpFileCreatorAtFolder extends AnAction {
         menu.add(cancle);
         container.add(menu);
 
-        jFrame.setSize(200, 150);
+        jFrame.setSize(400, 150);
         jFrame.setLocationRelativeTo(null);
 
         jFrame.setVisible(true);
@@ -85,9 +87,9 @@ public class MvpFileCreatorAtFolder extends AnAction {
                     Messages.showInfoMessage(project,e1.toString(),"提示");
                     return;
                 }
-                fileFactory.setViewName(viewName.getText());
-                fileFactory.setAuthor(currentUser);
-                fileFactory.createAll();
+                fileFactory.setModuleName(viewName.getText());
+                fileFactory.setPackageName(packageName.getText());
+                fileFactory.createFile(FileFactory.CodeType.Debug);
 
                 Messages.showInfoMessage(project,"生成完毕，请刷新文件夹","提示");
             }

@@ -1,0 +1,11 @@
+package debug;
+
+public class LauncherActivity extends BaseActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Intent intent = new Intent(this, xxxActivity.class);
+        //startActivity(intent);
+        //finish();
+    }
+}
