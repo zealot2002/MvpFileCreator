@@ -81,7 +81,7 @@ public class DebugFileCreator extends AnAction {
             String currentUser = System.getProperty("user.name");
             if (e.getActionCommand().equals("确定")) {
                 try{
-                    Util.isValidViewName(viewName.getText());
+                    Util.isValidViewOrModuleName(viewName.getText());
                 }catch (Exception e1){
                     e1.printStackTrace();
                     Messages.showInfoMessage(project,e1.toString(),"提示");

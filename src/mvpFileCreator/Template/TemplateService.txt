@@ -1,0 +1,20 @@
+package $packageName.service;
+
+import android.content.Context;
+import com.alibaba.android.arouter.facade.annotation.Route;
+
+/**
+ * @author $author
+ * @Description:
+ * @date $date
+ */
+
+// 实现接口
+@Route(path = "/$moduleName/$moduleNameService", name = "$moduleNameService")
+public class $moduleNameService implements I$moduleNameService{
+
+    @Override
+    public void init(Context context) {
+
+    }
+}

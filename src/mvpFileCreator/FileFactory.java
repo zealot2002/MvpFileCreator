@@ -4,7 +4,7 @@ import java.io.*;
 
 public class FileFactory {
     public static enum CodeType {
-        Activity,DataProvider,Constact,Presenter,Debug,Manifest,Gradle
+        Activity,DataProvider,Constact,Presenter,Service,Debug,Manifest,Gradle
     }
 
     private String packageName;
@@ -39,11 +39,12 @@ public class FileFactory {
         this.onOff = onOff;
     }
 
-    public void createAll() {
+    public void createMvpFiles() {
         createFile(CodeType.Activity);
         createFile(CodeType.Constact);
         createFile(CodeType.Presenter);
         createFile(CodeType.DataProvider);
+        createFile(CodeType.Service);
     }
 
     public void createFile(CodeType codeType){
@@ -85,6 +86,27 @@ public class FileFactory {
                 writetoFile(content, modulePath+"/presenter",  viewName + "Presenter.java");
                 break;
 
+            case Service:
+                TemplateFileName = "TemplateIService.txt";
+                content = ReadFile(TemplateFileName);
+                // 1.通用流程,处理顶部注释
+                content  = addHeader(content);
+                content = content.replace("$moduleName",moduleName);
+                content = content.replace("$packageName", packageName);
+
+                writetoFile(content, modulePath+"/service",  "I"+moduleName + "Service.java");
+
+                TemplateFileName = "TemplateService.txt";
+                content = ReadFile(TemplateFileName);
+                // 1.通用流程,处理顶部注释
+                content  = addHeader(content);
+                content = content.replace("$moduleName",moduleName);
+                content = content.replace("$packageName", packageName);
+
+                writetoFile(content, modulePath+"/service",  moduleName + "Service.java");
+
+                break;
+
             case Debug:
                 createDebugFile();
                 break;
@@ -101,6 +123,7 @@ public class FileFactory {
         String TemplateFileName = "TemplateGradle.txt";
         String content = ReadFile(TemplateFileName);
         content = content.replace("$onOff", onOff);
+        content = content.replace("$moduleName",moduleName);
         Util.writeFile(content,modulePath);
     }
 

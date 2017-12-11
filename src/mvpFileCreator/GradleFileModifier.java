@@ -18,8 +18,7 @@ public class GradleFileModifier extends AnAction {
     private Project project;
     private JDialog jFrame;
 
-    JTextField viewName;
-    String moduleName;
+    JTextField viewName,moduleName;
 
     FileFactory fileFactory;
     @Override
@@ -42,12 +41,16 @@ public class GradleFileModifier extends AnAction {
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         JPanel panelname = new JPanel();// /定义一个面板
-        panelname.setLayout(new GridLayout(1, 1));
-        panelname.setBorder(BorderFactory.createTitledBorder("请输入module开关名称"));
+        panelname.setLayout(new GridLayout(1, 2));
+        panelname.setBorder(BorderFactory.createTitledBorder("请输入module开关和resourcePrefix"));
 
         viewName = new JTextField();
         viewName.setText("1");
         panelname.add(viewName);
+
+        moduleName = new JTextField();
+        moduleName.setText("resourcePrefix");
+        panelname.add(moduleName);
 
         container.add(panelname);
 
@@ -66,7 +69,7 @@ public class GradleFileModifier extends AnAction {
         menu.add(cancle);
         container.add(menu);
 
-        jFrame.setSize(200, 150);
+        jFrame.setSize(400, 150);
         jFrame.setLocationRelativeTo(null);
 
         jFrame.setVisible(true);
@@ -79,6 +82,7 @@ public class GradleFileModifier extends AnAction {
             if (e.getActionCommand().equals("确定")) {
 
                 fileFactory.setOnOff(viewName.getText());
+                fileFactory.setModuleName(moduleName.getText());
                 fileFactory.createFile(FileFactory.CodeType.Gradle);
 
                 Messages.showInfoMessage(project,"生成完毕，请刷新文件夹","提示");

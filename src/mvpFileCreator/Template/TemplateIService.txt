@@ -1,0 +1,14 @@
+package $packageName.service;
+
+import com.alibaba.android.arouter.facade.template.IProvider;
+
+/**
+ * @author $author
+ * @Description:
+ * @date $date
+ */
+
+public interface I$moduleNameService extends IProvider {
+
+
+}

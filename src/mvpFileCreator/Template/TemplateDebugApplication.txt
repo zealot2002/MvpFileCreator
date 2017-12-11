@@ -1,15 +1,11 @@
 package debug;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.credithc.common_library.BaseApplication;
+import com.hengchang.client.library_app.base.AppBaseApplication;
 
-public class $moduleNameApplication extends BaseApplication {
+public class $moduleNameApplication extends AppBaseApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        ARouter.openDebug();
-        ARouter.openLog();
-        ARouter.init(this);
     }
 }

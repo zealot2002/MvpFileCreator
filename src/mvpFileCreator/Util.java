@@ -28,7 +28,7 @@ public class Util {
         String dateString = formatter.format(currentTime);
         return dateString;
     }
-    public static boolean isValidViewName(String name) throws RuntimeException{
+    public static boolean isValidViewOrModuleName(String name) throws RuntimeException{
         if(name==null||name.isEmpty()){
             throw new RuntimeException("非法的名称：非空");
         }

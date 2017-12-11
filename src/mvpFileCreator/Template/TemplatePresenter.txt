@@ -13,7 +13,6 @@ public class $viewNamePresenter implements $viewNameContract.Presenter{
 /****************************************************************************************************/
     public $viewNamePresenter(@NonNull $viewNameContract.View view) {
         this.view = view;
-        this.view.setPresenter(this);
     }
     @Override
     public void start() { }

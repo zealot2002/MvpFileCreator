@@ -19,7 +19,7 @@ public class MvpFileCreator extends AnAction {
     private JDialog jFrame;
 
     JTextField viewName;
-    String moduleName;
+    JTextField moduleName;
 
     FileFactory fileFactory;
     @Override
@@ -42,12 +42,16 @@ public class MvpFileCreator extends AnAction {
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         JPanel panelname = new JPanel();// /定义一个面板
-        panelname.setLayout(new GridLayout(1, 1));
-        panelname.setBorder(BorderFactory.createTitledBorder("请输入视图名称"));
+        panelname.setLayout(new GridLayout(1, 2));
+        panelname.setBorder(BorderFactory.createTitledBorder("请输入viewName和moduleName"));
 
         viewName = new JTextField();
-        viewName.setText("1");
+        viewName.setText("viewName");
         panelname.add(viewName);
+
+        moduleName = new JTextField();
+        moduleName.setText("moduleName");
+        panelname.add(moduleName);
 
         container.add(panelname);
 
@@ -66,7 +70,7 @@ public class MvpFileCreator extends AnAction {
         menu.add(cancle);
         container.add(menu);
 
-        jFrame.setSize(200, 150);
+        jFrame.setSize(400, 150);
         jFrame.setLocationRelativeTo(null);
 
         jFrame.setVisible(true);
@@ -78,15 +82,17 @@ public class MvpFileCreator extends AnAction {
             String currentUser = System.getProperty("user.name");
             if (e.getActionCommand().equals("确定")) {
                 try{
-                    Util.isValidViewName(viewName.getText());
+                    Util.isValidViewOrModuleName(viewName.getText());
+                    Util.isValidViewOrModuleName(moduleName.getText());
                 }catch (Exception e1){
                     e1.printStackTrace();
                     Messages.showInfoMessage(project,e1.toString(),"提示");
                     return;
                 }
                 fileFactory.setViewName(viewName.getText());
+                fileFactory.setModuleName(moduleName.getText());
                 fileFactory.setAuthor(currentUser);
-                fileFactory.createAll();
+                fileFactory.createMvpFiles();
 
                 Messages.showInfoMessage(project,"生成完毕，请刷新文件夹","提示");
             }

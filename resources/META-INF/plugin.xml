@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zzy.plugin.MvpFileCreator</id>
   <name>mvpFileCreator.MvpFileCreator</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <vendor email="zzy_2002@126.com" url="http://www.zzy.com">zzy</vendor>
 
   <description><![CDATA[
